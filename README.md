@@ -175,4 +175,4 @@ For example:
 - google related jobs, all things that may come into google; gcp, google analytics (although there may be different kind of jobs related to google analytics that may not involve big data itself or some skills like SQL)
 
 ### Additional Information
- We managed to correct with these considerations one of the queries and it is in the folder `Data-from-queries` (csv file with output) as *11_monthly_exemplary_query.csv* and in the `SQL-queries` folder (.sql file with query itself) as *11_monthly_exemplary_query.sql*
+ We managed to correct with these considerations one of the queries and it is in the folder `Data-from-queries` (csv file with output) as *11-monthly_exemplary_query.csv* and *12-category.csv* and in the `SQL-queries` folder (.sql file with query itself) as *11-monthly_exemplary_query.sql* and *12-category.sql*
