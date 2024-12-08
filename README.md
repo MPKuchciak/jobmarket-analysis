@@ -64,7 +64,11 @@ Throughout the process, we addressed key challenges:
 
 
 
-## Example Queries and Techniques
+## Example Queries and Functions Used
+
+Below are explanations of various SLQ functions and exemplary query that we used.
+
+Example of query 3 - usage of unnesting to flatten skills and matching job title using `LIKE` to select roles only related to Big Data
 
 ```
 SELECT
@@ -80,6 +84,57 @@ ORDER BY job_count DESC
 LIMIT 10;
 ```
 
+Some methods we used:
+*CREATE OR REPLACE TABLE:*
+Overwrites an existing table with a new version. This is handy for experimentation but can be costly. Normally, we would not do it and prefer a more controlled approach.
+
+*ANY_VALUE():*
+During table creation, ANY_VALUE() picks a single arbitrary value from a group of rows without specifying which one in particular. This is often used when you know the field is identical or stable across rows, which we assumed it is.
+
+*Grouping by a Field (e.g. GROUP BY id):*
+Collapses multiple rows related to the same id into one combined result row, allowing you to aggregate values (like using MIN, MAX, ANY_VALUE) and represent a single jobs entire active span as a single record.
+
+*MIN/MAX for earliest/latest times:*
+Using MIN(published_at) or MAX(date) helps find the earliest or latest occurrences of a job postings attributes, defining the jobs active time range.
+
+*DISTINCT:*
+Ensures that when counting (e.g., COUNT(DISTINCT id)), each unique id is only counted once. 
+
+*WHERE with LIKE:*
+Filters rows based on matches. For example, LOWER(title) LIKE '%big data%' finds all titles that include `big data` somewhere in them.
+
+*UNNEST:*
+Expands a nested array (like skills.list) into multiple rows. Without UNNEST, each row might contain multiple skills stored in an array. After UNNEST, each skill is on its own row, making it easier to count or filter them.
+
+*CAST(... AS DATE/TIMESTAMP):*
+Converts values to a proper date or timestamp type. This is crucial when using date/time functions (DATE_DIFF, GENERATE_DATE_ARRAY), ensuring the function receives the correct data type.
+
+*DATE_DIFF:*
+Calculates the difference between two dates or timestamps (e.g., in days). 
+
+*GENERATE_DATE_ARRAY:*
+Creates an array of dates from a start date to an end date. For a job active from January 1 to January 3, GENERATE_DATE_ARRAY returns [2023-01-01, 2023-01-02, 2023-01-03]. Makes enumeration easier.
+
+*CROSS JOIN:*
+When you CROSS JOIN UNNEST(active_dates), you join each job row with each date in the active_dates array, producing a row per active day. A CROSS JOIN without conditions pairs every row from the left table with every row from the right, which is exactly what UNNEST returns.
+
+*DATE_TRUNC:*
+Truncates a date or timestamp to a specified granularity (e.g., MONTH). If you have daily data, DATE_TRUNC(day, MONTH) aggregates it at the monthly level. For example, DATE_TRUNC('2023-04-15', MONTH) = 2023-04-01, grouping all April dates under April.
+
+*LAG() (Window Function):*
+A window function that looks at a previous row’s value in a result set without changing grouping. For instance, LAG(job_count) OVER (ORDER BY month) fetches the job_count from the previous month, allowing month-over-month comparisons.
+
+*SAFE_DIVIDE():*
+A safer division function. If the denominator is zero, SAFE_DIVIDE returns NULL instead of causing an error. Suitable for calculating percentages where the previous value might be zero (like growth rates).
+
+*CASE:*
+A conditional expression allowing you to categorize or rename fields. For example, converting various SQL-related skill names (`MySQL`, `T-SQL`, `PL/SQL`) into a single category `SQL`.
+
+*SUM(x) OVER (PARTITION BY y):*
+A window function that sums values (x) for each partition defined by y. For example, SUM(job_count) OVER (PARTITION BY active_date) calculates the total jobs active on that date (across all skills if used in that context). It’s useful when you need totals or running sums without writing another GROUP BY query.
+
+
+
 ## Visualize the Results:
 We have used Python and EXCEL for visualizations
 
@@ -88,7 +143,7 @@ These insights support strategic decisions on which courses to offer and will or
 
 
 
-## Structure of project
+## Structure of Project
 ```
 jobmarket-analysis/
 ├── README.md          # Main documentation and 
@@ -115,5 +170,5 @@ For example:
 - considering different things like id or certain skills and look what other titles may be associated with big data jobs.
 - google related jobs, all things that may come into google; gcp, google analytics (although there may be different kind of jobs related to google analytics that may not involve big data itself or some skills like SQL)
 
-### Additional information
+### Additional Information
  We managed to correct with these considerations one of the queries and it is in the folder `Data-from-queries` (csv file with output) as *11_monthly_exemplary_query.csv* and in the `SQL-queries` folder (.sql file with query itself) as *11_monthly_exemplary_query.sql*
