@@ -5,9 +5,9 @@ Just Join IT market analysis using GCP, project for studies
 
 ## Authors and Folder Structure The repository structure:
 
-$${\color{red}*Maciej Kuchciak*}$$
+<span style="color: red;">*Maciej Kuchciak*</span>
 
-$${\color{red}*Michał Woźniak*}$$
+<span style="color: red;">*Michał Woźniak*</span>
 
 
 
@@ -148,7 +148,7 @@ These insights support strategic decisions on which courses to offer and will or
 ## Structure of Project
 ```
 jobmarket-analysis/
-├── **$${\color{red}README.md}$$**       # Main documentation and project 1-pager !!!
+├── README.md      # Main documentation and project 1-pager !!!
 ├── .gitattributes     # Repository management (line endings, etc.)
 ├── .gitignore         # Ignoring unnecessary files
 ├── docs/              # Files for GitHub Pages or additional configuration like .yml
