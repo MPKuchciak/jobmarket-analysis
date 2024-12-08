@@ -4,13 +4,15 @@ Just Join IT market analysis using GCP, project for studies
 
 
 ## Authors and Folder Structure The repository structure:
-Maciej Kuchciak
-Michał Woźniak
+
+**Maciej Kuchciak**
+
+**Michał Woźniak**
 
 
 ## Place for GitHub Pages link:
 
-
+[PLACEHOLDER]
 
 ## Quick Explanation
 The primary goal of the project is to identify which courses should be launched for Big Data Analysts next year and to justify these recommendations with data, so that hypothetical client will buy our services for continuos period. 
@@ -106,9 +108,12 @@ Further refinement, such as exploring more job titles related to Big Data or ana
 
 
 
-## Additional Queries and Insights 
+## Additional Queries and Insights (something to work on in the future)
 For example:
 - considering unnesting before making queries, 
 - considering SQL related skills so for example MySQLi or PL SQL into SQL statistics, analyze data - - considering engineers too (or maybe excluding them)
 - considering different things like id or certain skills and look what other titles may be associated with big data jobs.
 - google related jobs, all things that may come into google; gcp, google analytics (although there may be different kind of jobs related to google analytics that may not involve big data itself or some skills like SQL)
+
+### Additional information
+ We managed to correct with these considerations one of the queries and it is in the folder `Data-from-queries` (csv file with output) as *11_monthly_exemplary_query.csv* and in the `SQL-queries` folder (.sql file with query itself) as *11_monthly_exemplary_query.sql*
