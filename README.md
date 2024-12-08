@@ -3,7 +3,7 @@ Just Join IT market analysis using GCP, project for studies
 
 
 
-## Authors and Folder Structure The repository structure:
+## Authors 
 
 <span style="color: red;">*Maciej Kuchciak*</span>
 
@@ -14,6 +14,22 @@ Just Join IT market analysis using GCP, project for studies
 ## Place for GitHub Pages link:
 
 [PLACEHOLDER]
+
+
+
+## Structure of Project
+```
+jobmarket-analysis/
+├── README.md      # Main documentation and project 1-pager !!!
+├── .gitattributes     # Repository management (line endings, etc.)
+├── .gitignore         # Ignoring unnecessary files
+├── docs/              # Files for GitHub Pages or additional configuration like .yml
+├── SQL-queries/       # SQL scripts for data cleaning and analysis
+├── Data-from-queries/ # Storing exported query results
+└── setup/             # Jupyter notebooks (e.g., justjoinit.ipynb) & bq_commands.txt
+```
+
+
 
 ## Quick Explanation
 The primary goal of the project is to identify which courses should be launched for Big Data Analysts next year and to justify these recommendations with data, so that hypothetical client will buy our services for continuous period. 
@@ -142,20 +158,6 @@ We have used Python and EXCEL for visualizations
 
 Visualization helps communicate findings to stakeholders or in our project to connect with company, showing top skills, how they evolve over time, and how job durations vary by experience level (examples of our queries). 
 These insights support strategic decisions on which courses to offer and will or may help us in getting Us hypothetically considered as partners (for employer).
-
-
-
-## Structure of Project
-```
-jobmarket-analysis/
-├── README.md      # Main documentation and project 1-pager !!!
-├── .gitattributes     # Repository management (line endings, etc.)
-├── .gitignore         # Ignoring unnecessary files
-├── docs/              # Files for GitHub Pages or additional configuration like .yml
-├── SQL-queries/       # SQL scripts for data cleaning and analysis
-├── Data-from-queries/ # Storing exported query results
-└── setup/             # Jupyter notebooks (e.g., justjoinit.ipynb) & bq_commands.txt
-```
 
 
 
