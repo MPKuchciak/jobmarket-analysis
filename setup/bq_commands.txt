@@ -1,0 +1,6 @@
+# this command will upload data from your local machine to GCP
+gsutil -m cp -r local_path gs://justjoinit_data/just_join_it/
+
+
+# this command creates Big Query table based on data in the Cloud Storage
+bq load --source_format=PARQUET just_join_it.just_join_it_2022_2023 gs://justjoinit_data/just_join_it/archive_sample_pq/*.parquet
