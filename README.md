@@ -5,9 +5,10 @@ Just Join IT market analysis using GCP, project for studies
 
 ## Authors and Folder Structure The repository structure:
 
-**Maciej Kuchciak**
+$${\color{red}*Maciej Kuchciak*}$$
 
-**Michał Woźniak**
+$${\color{red}*Michał Woźniak*}$$
+
 
 
 ## Place for GitHub Pages link:
@@ -15,14 +16,14 @@ Just Join IT market analysis using GCP, project for studies
 [PLACEHOLDER]
 
 ## Quick Explanation
-The primary goal of the project is to identify which courses should be launched for Big Data Analysts next year and to justify these recommendations with data, so that hypothetical client will buy our services for continuos period. 
+The primary goal of the project is to identify which courses should be launched for Big Data Analysts next year and to justify these recommendations with data, so that hypothetical client will buy our services for continuous period. 
 
 Throughout the process, we addressed key challenges:  
 - Handling nested JSON variables (skills, multilocation) with `UNNEST` operations.  
 - Deciding between on-the-fly UNNEST (flexible, no extra storage) vs. pre-flattening the data (faster but more complex setup).  
 - Filtering data by country (`PL` for Poland) and by job titles relevant to Big Data Analysts (we considered %big data%,  %data analyst% and %big data analyst%, but in the future in may be wise to analyze what other titles may be included in big data analysts jobs or consider also different variables such as skills when filtering main database).  
 - We filtered dataset to data in range of 2022-01-01 to 2023-09 (2021 was cut off from raw dataset)
-- Managing performance vs. complexity trade-offs to ensure queries remain efficient; for example with windows functions.
+- Managing performance vs. complexity trade-offs to ensure queries remain efficient; for example with window functions
 
 
 
@@ -31,7 +32,7 @@ Throughout the process, we addressed key challenges:
    Download the Kaggle dataset from [JustJoinIT Job Offers Data 2021-10 to 2023-09](https://www.kaggle.com/datasets/jszafranqb/justjoinit-job-offers-data-2021-10-2023-09?resource=download-directory). This dataset contains valuable job offer information spanning multiple years.
 
 2. Prepare the Data - contained in setup folder:  
-   Use the `justjoinit.ipynb` Jupyter notebook to review the dataset schema and convert the data from JSON to Parquet. This step improves query performance. If performance issues arise due to nested structures, consider alternative approaches:
+   Use the `justjoinit.ipynb` Jupyter notebook to review the dataset schema and convert the data from JSON to Parquet. This step improves query performance. In later steps, consider two alternative approaches:
    - Keep data nested and UNNEST in queries when needed (flexible but potentially costly per query).
    - Pre-flatten data if queries are frequent and the complexity justifies it.
 
@@ -66,7 +67,7 @@ Throughout the process, we addressed key challenges:
 
 ## Example Queries and Functions Used
 
-Below are explanations of various SLQ functions and exemplary query that we used.
+Below are explanations of various SQL functions and exemplary query that we used (all used queries are inside SQL-queries folder).
 
 Example of query 3 - usage of unnesting to flatten skills and matching job title using `LIKE` to select roles only related to Big Data
 
@@ -84,18 +85,19 @@ ORDER BY job_count DESC
 LIMIT 10;
 ```
 
-Some methods we used:
+**Some function / methods we used:**
+
 *CREATE OR REPLACE TABLE:*
-Overwrites an existing table with a new version. This is handy for experimentation but can be costly. Normally, we would not do it and prefer a more controlled approach.
+Overwrites an existing (or creates table) table with a new version. This is handy for experimentation but can be costly. Normally, we would not do it and prefer a more controlled approach, even with just creation of table (instead CREATE OR REPLACE), but for testing purposes and some experimentation we decided on that approach.
 
 *ANY_VALUE():*
-During table creation, ANY_VALUE() picks a single arbitrary value from a group of rows without specifying which one in particular. This is often used when you know the field is identical or stable across rows, which we assumed it is.
+During table creation, ANY_VALUE() picks a single value from a group of rows without specifying which one in particular. This is often used when You know the field is identical or stable across rows, which we assumed it is (briefly checked, but I guess it would be appropriate to check it more thoroughly).
 
 *Grouping by a Field (e.g. GROUP BY id):*
-Collapses multiple rows related to the same id into one combined result row, allowing you to aggregate values (like using MIN, MAX, ANY_VALUE) and represent a single jobs entire active span as a single record.
+Collapses multiple rows related to the same `id`(exemplary column) into one combined result row, allowing You to aggregate values (like using MIN, MAX, ANY_VALUE) and represent a single jobs entire active span as a single record.
 
 *MIN/MAX for earliest/latest times:*
-Using MIN(published_at) or MAX(date) helps find the earliest or latest occurrences of a job postings attributes, defining the jobs active time range.
+Using MIN(published_at/date) or MAX(published_at/date) helps find the earliest or latest occurrences of a job postings attributes, defining the jobs active time range.
 
 *DISTINCT:*
 Ensures that when counting (e.g., COUNT(DISTINCT id)), each unique id is only counted once. 
@@ -107,7 +109,7 @@ Filters rows based on matches. For example, LOWER(title) LIKE '%big data%' finds
 Expands a nested array (like skills.list) into multiple rows. Without UNNEST, each row might contain multiple skills stored in an array. After UNNEST, each skill is on its own row, making it easier to count or filter them.
 
 *CAST(... AS DATE/TIMESTAMP):*
-Converts values to a proper date or timestamp type. This is crucial when using date/time functions (DATE_DIFF, GENERATE_DATE_ARRAY), ensuring the function receives the correct data type.
+Converts values to a proper date or timestamp type. This is crucial when using date/time functions (DATE_DIFF, GENERATE_DATE_ARRAY), ensuring the function receives the correct data type and avoids errors.
 
 *DATE_DIFF:*
 Calculates the difference between two dates or timestamps (e.g., in days). 
@@ -122,7 +124,7 @@ When you CROSS JOIN UNNEST(active_dates), you join each job row with each date i
 Truncates a date or timestamp to a specified granularity (e.g., MONTH). If you have daily data, DATE_TRUNC(day, MONTH) aggregates it at the monthly level. For example, DATE_TRUNC('2023-04-15', MONTH) = 2023-04-01, grouping all April dates under April.
 
 *LAG() (Window Function):*
-A window function that looks at a previous row’s value in a result set without changing grouping. For instance, LAG(job_count) OVER (ORDER BY month) fetches the job_count from the previous month, allowing month-over-month comparisons.
+A window function that looks at a previous row value in a result set without changing grouping. For instance, LAG(job_count) OVER (ORDER BY month) fetches the job_count from the previous month, allowing month-over-month comparisons.
 
 *SAFE_DIVIDE():*
 A safer division function. If the denominator is zero, SAFE_DIVIDE returns NULL instead of causing an error. Suitable for calculating percentages where the previous value might be zero (like growth rates).
@@ -131,7 +133,7 @@ A safer division function. If the denominator is zero, SAFE_DIVIDE returns NULL 
 A conditional expression allowing you to categorize or rename fields. For example, converting various SQL-related skill names (`MySQL`, `T-SQL`, `PL/SQL`) into a single category `SQL`.
 
 *SUM(x) OVER (PARTITION BY y):*
-A window function that sums values (x) for each partition defined by y. For example, SUM(job_count) OVER (PARTITION BY active_date) calculates the total jobs active on that date (across all skills if used in that context). It’s useful when you need totals or running sums without writing another GROUP BY query.
+A window function that sums values (x) for each partition defined by y. For example, SUM(job_count) OVER (PARTITION BY active_date) calculates the total jobs active on that date (across all `skills` if used in Our context). It is useful when you need totals or running sums without writing another GROUP BY query.
 
 
 
@@ -146,7 +148,7 @@ These insights support strategic decisions on which courses to offer and will or
 ## Structure of Project
 ```
 jobmarket-analysis/
-├── README.md          # Main documentation and 
+├── **$${\color{red}README.md}$$**       # Main documentation and project 1-pager !!!
 ├── .gitattributes     # Repository management (line endings, etc.)
 ├── .gitignore         # Ignoring unnecessary files
 ├── docs/              # Files for GitHub Pages or additional configuration like .yml
