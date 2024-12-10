@@ -1,0 +1,19 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Python Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+
+# Virtual Environments
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+

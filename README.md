@@ -53,7 +53,7 @@ Throughout the process, we addressed key challenges:
    - Pre-flatten data if queries are frequent and the complexity justifies it.
 
 3. Upload Data to GCP:  
-   Utilize `bq_commands.txt` and Google Cloud CLI / Google Cloud SDK (desktop) to upload data (example of handliing data below as bq_commands.txt may not work correctly as in our case) to GCP and create tables in BigQuery. 
+   Utilize `bq_commands.txt` and Google Cloud CLI / Google Cloud SDK (desktop) to upload data (example of handling data below as bq_commands.txt may not work correctly as in our case) to GCP and create tables in BigQuery. 
    
    First we loaded single day of month to get scheme autodetected (also newer periods contain variable related to ukraine while the older ones did not)
    For example (names are something that needs to be changed):

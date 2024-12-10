@@ -1,2 +1,25 @@
-# Auto detect text files and perform LF normalization
+# Set default behavior to automatically normalize line endings
 * text=auto
+
+# Explicitly declare text files
+*.sql text
+*.md text
+*.py text
+*.ipynb text
+
+# Declare binary files to be treated as binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.zip binary
+
+# Ensure SQL files use LF line endings
+*.sql text eol=lf
+
+# Handle Jupyter notebooks as binary to prevent corruption
+*.ipynb binary
+
+# GitHub Pages configuration files
+docs/*.yml text
