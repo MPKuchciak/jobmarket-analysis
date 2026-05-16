@@ -2,12 +2,11 @@
 * text=auto
 
 # Explicitly declare text files
-*.sql text
+*.sql text eol=lf
 *.md text
 *.py text
-*.ipynb text
 
-# Declare binary files to be treated as binary
+# Declare binary files
 *.png binary
 *.jpg binary
 *.jpeg binary
@@ -15,11 +14,11 @@
 *.pdf binary
 *.zip binary
 
-# Ensure SQL files use LF line endings
-*.sql text eol=lf
+# Jupyter notebooks — treat as docs so SQL/Python/R show in language stats
+*.ipynb linguist-documentation
 
-# Handle Jupyter notebooks as binary to prevent corruption
-*.ipynb binary
+# Make sure SQL is counted in language stats
+*.sql linguist-detectable=true
 
 # GitHub Pages configuration files
 docs/*.yml text
