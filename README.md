@@ -11,12 +11,6 @@ Just Join IT market analysis using GCP, project for studies
 
 
 
-## Place for GitHub Pages link:
-
-[PLACEHOLDER]
-
-
-
 ## Structure of Project
 ```
 jobmarket-analysis/
